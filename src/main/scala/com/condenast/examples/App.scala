@@ -1,5 +1,8 @@
 package com.condenast.examples
 
+import java.nio.ByteBuffer
+
+import com.google.protobuf.Any
 import org.apache.spark.sql.{Dataset, SparkSession}
 
 object App {
@@ -21,7 +24,7 @@ object App {
 
     case class MyData(serialized_value: Array[Byte])
     val datasetBytes: Dataset[MyData] = temp.as[MyData]
-
+    val features = datasetBytes.map(x => Any.parseFrom(ByteBuffer.wrap(x.serialized_value)))
 
 
   }
